@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Cheeziup Pizza",
+      "hasCanvas": false,
+      "bodyTextLen": 1151,
+      "bodyTextHash": "e34ea7d08c7b9e4dd0791b14de48b035efd3148df6c302fcbdd04ce00aad56ff",
+      "bodyTextPrefix": "Cheeziup 1:00 PM – 3:00 AM Member LAHORE FAST FOOD Cheeziup Pizz",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Cheeziup Pizza",
+      "hasCanvas": false,
+      "bodyTextLen": 1151,
+      "bodyTextHash": "e34ea7d08c7b9e4dd0791b14de48b035efd3148df6c302fcbdd04ce00aad56ff",
+      "bodyTextPrefix": "Cheeziup 1:00 PM – 3:00 AM Member LAHORE FAST FOOD Cheeziup Pizz",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
