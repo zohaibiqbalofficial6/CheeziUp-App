@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cartCount, cartTotal, useCart } from "@/lib/cart-store";
+import { cartCount, cartTotal, useCart, useCartHydrated } from "@/lib/cart-store";
 import { getSettings, placeOrder } from "@/lib/api/orders";
 import { DEFAULT_SETTINGS } from "@/lib/types";
 import { cn, formatPkr } from "@/lib/utils";
+import { openWhatsApp } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/checkout")({ component: CheckoutPage });
 
@@ -20,6 +21,7 @@ function CheckoutPage() {
   const member = useCart((s) => s.member);
   const setQty = useCart((s) => s.setQty);
   const clear = useCart((s) => s.clear);
+  const hydrated = useCartHydrated();
   const settingsQuery = useQuery({ queryKey: ["settings"], queryFn: () => getSettings() });
   const settings = settingsQuery.data ?? DEFAULT_SETTINGS;
   const [name, setName] = useState("");
@@ -37,24 +39,40 @@ function CheckoutPage() {
     onSuccess: (result) => {
       clear();
       setDone(result);
-      window.open(result.waUrl, "_blank", "noopener,noreferrer");
+      openWhatsApp(result.waUrl);
     },
     onError: (error: Error) => toast.error(error.message),
   });
+
+  function submit() {
+    if (name.trim().length < 2) {
+      toast.error("Please add your name.");
+      return;
+    }
+    if (phone.replace(/\D/g, "").length < 10) {
+      toast.error("Please add a valid phone number.");
+      return;
+    }
+    if (fulfillment === "delivery" && address.trim().length < 6) {
+      toast.error("Please add a delivery address.");
+      return;
+    }
+    order.mutate();
+  }
 
   if (done) {
     return (
       <Storefront>
         <div className="mx-auto max-w-md rounded-[28px] bg-paper px-5 py-8 text-center shadow-[var(--shadow-card)]">
-          <p className="text-xs font-semibold tracking-[0.2em] text-muted uppercase">Order sent</p>
+          <p className="text-xs font-semibold tracking-[0.2em] text-muted uppercase">Order ready</p>
           <h1 className="mt-2 font-display text-4xl tracking-wide">{done.code}</h1>
           <p className="mt-2 text-sm text-muted">
-            WhatsApp opened with the ticket for {formatPkr(done.total)}. If it didn’t pop up, send it from the button below.
+            WhatsApp is opening with your ticket for {formatPkr(done.total)}. Tap Send in WhatsApp so the shop receives it.
           </p>
           <div className="mt-5 flex flex-col gap-2">
-            <Button asChild variant="whatsapp">
-              <a href={done.waUrl} target="_blank" rel="noreferrer">
-                Open WhatsApp ticket
+            <Button asChild variant="whatsapp" size="lg">
+              <a id="cheeziup-wa" href={done.waUrl} target="_blank" rel="noreferrer">
+                Send on WhatsApp
               </a>
             </Button>
             <Button asChild variant="outline">
@@ -73,12 +91,16 @@ function CheckoutPage() {
           <p className="text-xs font-semibold tracking-[0.2em] text-muted uppercase">Bag</p>
           <h1 className="font-display text-4xl tracking-wide">Checkout</h1>
         </header>
-        {items.length === 0 ? (
+        {!hydrated ? (
+          <div className="rounded-[28px] bg-paper px-5 py-10 text-center shadow-[var(--shadow-card)]">
+            <p className="text-sm text-muted">Loading bag…</p>
+          </div>
+        ) : items.length === 0 ? (
           <div className="rounded-[28px] bg-paper px-5 py-10 text-center shadow-[var(--shadow-card)]">
             <p className="font-display text-2xl tracking-wide">Bag is empty</p>
             <p className="mt-1 text-sm text-muted">Add a pizza, deal, or burger first.</p>
             <Button asChild className="mt-4">
-              <Link to="/menu">Browse menu</Link>
+              <Link to="/">Browse menu</Link>
             </Button>
           </div>
         ) : (
@@ -100,6 +122,7 @@ function CheckoutPage() {
                     <button
                       className="inline-flex size-9 items-center justify-center"
                       onClick={() => setQty(item.key, item.qty - 1)}
+                      type="button"
                     >
                       {item.qty === 1 ? <Trash2 className="size-4" /> : <Minus className="size-4" />}
                     </button>
@@ -107,6 +130,7 @@ function CheckoutPage() {
                     <button
                       className="inline-flex size-9 items-center justify-center"
                       onClick={() => setQty(item.key, item.qty + 1)}
+                      type="button"
                     >
                       <Plus className="size-4" />
                     </button>
@@ -119,6 +143,7 @@ function CheckoutPage() {
                 {(["delivery", "pickup"] as const).map((option) => (
                   <button
                     key={option}
+                    type="button"
                     onClick={() => setFulfillment(option)}
                     className={cn(
                       "h-11 rounded-[14px] text-sm font-semibold capitalize",
@@ -165,8 +190,8 @@ function CheckoutPage() {
               </div>
               <p className="text-sm text-muted">{settings.deliveryNote}</p>
             </section>
-            <div className="h-20" />
-            <div className="fixed inset-x-0 bottom-[68px] z-30 px-4">
+            <div className="h-24" />
+            <div className="fixed inset-x-0 bottom-[72px] z-50 px-4 pb-[env(safe-area-inset-bottom)]">
               <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-[20px] bg-ink px-4 py-3 text-paper shadow-[var(--shadow-card)]">
                 <div>
                   <p className="text-xs text-paper/60">
@@ -174,8 +199,8 @@ function CheckoutPage() {
                   </p>
                   <p className="font-display text-2xl tabular-nums tracking-wide">{formatPkr(cartTotal(items))}</p>
                 </div>
-                <Button variant="whatsapp" disabled={order.isPending} onClick={() => order.mutate()}>
-                  {order.isPending ? "Sending…" : "Send to WhatsApp"}
+                <Button variant="whatsapp" disabled={order.isPending} onClick={submit}>
+                  {order.isPending ? "Sending…" : "Send on WhatsApp"}
                 </Button>
               </div>
             </div>

@@ -1,18 +1,6 @@
-import { Fish, Pizza, Sandwich, Soup, UtensilsCrossed } from "lucide-react";
+import { Pizza } from "lucide-react";
 import { FOOD_IMAGES } from "@/lib/types";
 import { cn } from "@/lib/utils";
-
-const ICONS = {
-  pizza: Pizza,
-  burger: Sandwich,
-  shawarma: UtensilsCrossed,
-  fries: UtensilsCrossed,
-  biryani: Soup,
-  nuggets: UtensilsCrossed,
-  fish: Fish,
-  roll: UtensilsCrossed,
-  sandwich: Sandwich,
-};
 
 export function FoodImage({
   imageKey,
@@ -23,7 +11,7 @@ export function FoodImage({
   alt: string;
   className?: string;
 }) {
-  const src = FOOD_IMAGES[imageKey];
+  const src = FOOD_IMAGES[imageKey] ?? FOOD_IMAGES.pizza;
   if (src) {
     return (
       <img
@@ -33,10 +21,9 @@ export function FoodImage({
       />
     );
   }
-  const Icon = ICONS[imageKey as keyof typeof ICONS] ?? Pizza;
   return (
     <div className={cn("flex h-full w-full items-center justify-center bg-brand-soft text-brand", className)}>
-      <Icon className="size-8" />
+      <Pizza className="size-8" />
     </div>
   );
 }

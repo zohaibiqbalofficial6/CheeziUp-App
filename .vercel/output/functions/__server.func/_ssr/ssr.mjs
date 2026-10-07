@@ -104,7 +104,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-wA98wYMU.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-BYkW-GEL.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -126,63 +126,63 @@ async function getStartManifest(matchedRoutes) {
 var manifest = {
 	"2f17307060163fdb5778d4830497c3d4042156500b03c9a1b6a47f1c8a626a9f": {
 		functionName: "saveSettings_createServerFn_handler",
-		importer: () => import("./orders-CAmFS_-A.mjs")
+		importer: () => import("./orders-Mjh-SJWr.mjs")
 	},
 	"42d84fe500fa3d4af2e65baa11f0e712504f5860a750d85474db9cc651338a27": {
 		functionName: "deleteStaff_createServerFn_handler",
-		importer: () => import("./staff-C1tWWAyf.mjs")
+		importer: () => import("./staff-BjlsqpjS.mjs")
 	},
 	"4abebcb55661d3d92cfa967260c2d84e55185b4a80e5fd5bdc99ab6f0ef4e312": {
 		functionName: "upsertProduct_createServerFn_handler",
-		importer: () => import("./catalog-gUQen4WS.mjs")
+		importer: () => import("./catalog-DsSsVko8.mjs")
 	},
 	"616ba3bf5d2a7856b818c689f27be868bfbc256dac26a96205219f9dc50f2448": {
 		functionName: "placeOrder_createServerFn_handler",
-		importer: () => import("./orders-CAmFS_-A.mjs")
+		importer: () => import("./orders-Mjh-SJWr.mjs")
 	},
 	"71ba35fe1e2894bed0322b01cf9bb0c0002c0bcc1b426a2ace29db6fd7299996": {
 		functionName: "updateOrderStatus_createServerFn_handler",
-		importer: () => import("./orders-CAmFS_-A.mjs")
+		importer: () => import("./orders-Mjh-SJWr.mjs")
 	},
 	"8d4e4b401f7ef25c93d9c50227e2c9ccfaca7af686dbb95d2ba43951ee98b006": {
 		functionName: "listStaff_createServerFn_handler",
-		importer: () => import("./staff-C1tWWAyf.mjs")
+		importer: () => import("./staff-BjlsqpjS.mjs")
 	},
 	"93ea4f802ca22ea6878f8f0564d75b9c1de26ff213df272672ae1a7abc213b95": {
 		functionName: "deleteProduct_createServerFn_handler",
-		importer: () => import("./catalog-gUQen4WS.mjs")
+		importer: () => import("./catalog-DsSsVko8.mjs")
 	},
 	"9feac6f0edae43abbdfcfc0b3a8bf521a208a90d85b999c78d758e44bdfc3b31": {
 		functionName: "getSettings_createServerFn_handler",
-		importer: () => import("./orders-CAmFS_-A.mjs")
+		importer: () => import("./orders-Mjh-SJWr.mjs")
 	},
 	"ae3dabcd4738abf04f1a2138df03b06b2484fc2c34757332f736ddea543a74c6": {
 		functionName: "listOrders_createServerFn_handler",
-		importer: () => import("./orders-CAmFS_-A.mjs")
+		importer: () => import("./orders-Mjh-SJWr.mjs")
 	},
 	"ae614d38815bcd25a393d3146b9081b90f11cf7e6c1d021d71f848a692b1a989": {
 		functionName: "getCatalog_createServerFn_handler",
-		importer: () => import("./catalog-gUQen4WS.mjs")
+		importer: () => import("./catalog-DsSsVko8.mjs")
 	},
 	"b07e978163deacac8ea750fea6ab3c97ea7ebeac1b805c20c4eb35ef0ac7f4ab": {
 		functionName: "staffLogout_createServerFn_handler",
-		importer: () => import("./staff-C1tWWAyf.mjs")
+		importer: () => import("./staff-BjlsqpjS.mjs")
 	},
 	"c266f3f16f34bdb10788c662dc4ba97edceb433bb136d30caef0331f0a7d7064": {
 		functionName: "upsertStaff_createServerFn_handler",
-		importer: () => import("./staff-C1tWWAyf.mjs")
+		importer: () => import("./staff-BjlsqpjS.mjs")
 	},
 	"d2eb8d9f98675201db38c9382ad537b5f78f1d6dab7a96eb6a3e6e83f4a305b9": {
 		functionName: "staffMe_createServerFn_handler",
-		importer: () => import("./staff-C1tWWAyf.mjs")
+		importer: () => import("./staff-BjlsqpjS.mjs")
 	},
 	"db3f4025477eee80f240eb975ac80f5d51560274ce7cc4cb34440fef09e45578": {
 		functionName: "staffLogin_createServerFn_handler",
-		importer: () => import("./staff-C1tWWAyf.mjs")
+		importer: () => import("./staff-BjlsqpjS.mjs")
 	},
 	"f96d50ffe3d16bcb885b7752ffb812af5dea879c1faadc96768468f3d6427481": {
 		functionName: "getAdminCatalog_createServerFn_handler",
-		importer: () => import("./catalog-gUQen4WS.mjs")
+		importer: () => import("./catalog-DsSsVko8.mjs")
 	}
 };
 async function getServerFnById(id, access) {
@@ -1587,7 +1587,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-T88XSsFg.mjs").then((n) => n.t),
+		import("./router-5ThLe9Ru.mjs").then((n) => n.t),
 		import("./start-5Z2QO8AU.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);

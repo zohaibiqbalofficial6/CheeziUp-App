@@ -81,9 +81,9 @@ function VisitPage() {
           </Button>
         </section>
         <p className="text-center text-xs text-faint">
-          Staff kitchen ·{" "}
+          Kitchen / admin ·{" "}
           <Link to="/staff" className="font-semibold text-muted">
-            PIN login
+            Staff PIN login
           </Link>
         </p>
       </div>

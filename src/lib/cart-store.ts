@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartLine } from "./types";
@@ -44,6 +45,18 @@ export const useCart = create<CartState>()(
     { name: "cheeziup-cart" },
   ),
 );
+
+export function useCartHydrated() {
+  const [hydrated, setHydrated] = useState(() => useCart.persist.hasHydrated());
+  useEffect(() => {
+    if (useCart.persist.hasHydrated()) {
+      setHydrated(true);
+      return;
+    }
+    return useCart.persist.onFinishHydration(() => setHydrated(true));
+  }, []);
+  return hydrated;
+}
 
 export function cartCount(items: CartLine[]) {
   return items.reduce((sum, item) => sum + item.qty, 0);

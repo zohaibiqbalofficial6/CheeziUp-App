@@ -17,17 +17,17 @@ export type SeedProduct = {
 };
 
 const REGULAR_SIZES: ProductSize[] = [
-  { id: "S", label: "Small", inches: 8, price: 650 },
-  { id: "M", label: "Medium", inches: 11, price: 1200 },
-  { id: "L", label: "Large", inches: 14, price: 1600 },
-  { id: "F", label: "Family", inches: 16, price: 1800 },
+  { id: "S", label: "Small", inches: 8, price: 700 },
+  { id: "M", label: "Medium", inches: 11, price: 1250 },
+  { id: "L", label: "Large", inches: 14, price: 1650 },
+  { id: "F", label: "Family", inches: 16, price: 1850 },
 ];
 
 const SPECIAL_SIZES: ProductSize[] = [
-  { id: "S", label: "Small", inches: 8, price: 800 },
-  { id: "M", label: "Medium", inches: 11, price: 1400 },
-  { id: "L", label: "Large", inches: 14, price: 1800 },
-  { id: "F", label: "Family", inches: 16, price: 2200 },
+  { id: "S", label: "Small", inches: 8, price: 850 },
+  { id: "M", label: "Medium", inches: 11, price: 1450 },
+  { id: "L", label: "Large", inches: 14, price: 1850 },
+  { id: "F", label: "Family", inches: 16, price: 2250 },
 ];
 
 function deal(
@@ -74,69 +74,76 @@ export const SEED_PRODUCTS: SeedProduct[] = [
   deal(17, "deal-17", "Student Deal 17", "10 Nuggets, 2 Zinger Burger, 1 Regular Fries, 1 Ltr Drink", 1400, { imageKey: "nuggets", badge: "Deal 17" }),
   deal(18, "deal-18", "Student Deal 18", "4 Chicken Burger, 2 Regular Fries, 1 Ltr Drink", 1400, { imageKey: "burger", badge: "Deal 18" }),
   deal(19, "deal-19", "Student Deal 19", "1 Large Pizza, 2 Zinger Burger, 2 Paratha Roll, Full Load Fries, 1.5 Ltr Drink", 2400, { imageKey: "roll", badge: "Deal 19" }),
-  deal(20, "deal-20", "Student Deal 20", "1 Medium Crown Crust Pizza, 2 Zinger Burger, 1 Regular Fries, 1 Ltr Drink", 1950, { imageKey: "pizza", badge: "Deal 20" }),
+  deal(20, "deal-20", "Student Deal 20", "1 Medium Crown Crust Pizza, 2 Zinger Burger, 1 Regular Fries, 1 Ltr Drink", 1950, { imageKey: "pizza-crown", badge: "Deal 20" }),
 
-  deal(30, "hot-3-small", "3 Small Pizzas", "3 Small pizzas with 1 Ltr drink. Show member card.", 1600, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(31, "hot-3-medium", "3 Medium Pizzas", "3 Medium pizzas with 1.5 Ltr drink. Show member card.", 2600, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(32, "hot-3-large", "3 Large Pizzas", "3 Large pizzas with 1.5 Ltr drink. Show member card.", 3200, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(33, "hot-3-family", "3 Family Pizzas", "3 Family pizzas with 1.5 Ltr drink. Show member card.", 4200, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(30, "hot-3-small", "3 Small Pizzas", "3 Small pizza with 1 Ltr drink. Members only.", 1650, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(31, "hot-3-medium", "3 Medium Pizzas", "3 Medium pizza with 1.5 Ltr drink. Members only.", 2650, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(32, "hot-3-large", "3 Large Pizzas", "3 Large pizza with 1.5 Ltr drink. Members only.", 3250, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(33, "hot-3-family", "3 Family Pizzas", "3 Family pizza with 1.5 Ltr drink. Members only.", 4250, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza" }),
 
-  deal(40, "two-small", "Small Two Pizza Deal", "Two small pizzas with 500ml drink. Members only.", 1200, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(41, "two-medium", "Medium Two Pizza Deal", "Two medium pizzas with 1.5 Ltr drink. Members only.", 1850, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(42, "two-large", "Large Two Pizza Deal", "Two large pizzas with 1.5 Ltr drink. Members only.", 2250, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(43, "two-family", "Family Two Pizza Deal", "Two family pizzas with 1.5 Ltr drink. Members only.", 3200, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(40, "two-small", "Small Two Pizza Deal", "Two small pizza with 500ml drink. Members only.", 1250, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(41, "two-medium", "Medium Two Pizza Deal", "Two medium pizza with 1.5 Ltr drink. Members only.", 1900, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(42, "two-large", "Large Two Pizza Deal", "Two large pizza with 1.5 Ltr drink. Members only.", 2300, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(43, "two-family", "Family Two Pizza Deal", "Two family pizza with 1.5 Ltr drink. Members only.", 3250, { category: "two-pizza", memberOnly: true, badge: "Members", imageKey: "pizza" }),
 
-  deal(50, "party-small", "Small Party Package", "6 Small pizzas, 6 Zinger burgers, 2 × 1.5 Ltr drinks, 1 pound cake", 6500, { category: "party", badge: "Party", imageKey: "pizza" }),
-  deal(51, "party-medium", "Medium Party Package", "3 Medium pizzas, 3 Zinger burgers, 2 × 1.5 Ltr drinks, 1 pound cake", 5500, { category: "party", badge: "Party", imageKey: "pizza" }),
-  deal(52, "party-large", "Large Party Package", "3 Large pizzas, 3 Zinger burgers, 2 × 1.5 Ltr drinks, 1 pound cake", 7000, { category: "party", badge: "Party", imageKey: "pizza" }),
-  deal(53, "party-family", "Family Party Package", "3 Family pizzas, 3 Zinger burgers, 2 × 1.5 Ltr drinks, 1 pound cake", 8000, { category: "party", badge: "Party", imageKey: "pizza" }),
+  deal(50, "party-small", "Small Party Package", "6 Small pizza, 6 Zinger burger, 2 × 1.5 Ltr drink, 1 pound cake", 6500, { category: "party", badge: "Party", imageKey: "pizza" }),
+  deal(51, "party-medium", "Medium Party Package", "3 Medium pizza, 3 Zinger burger, 2 × 1.5 Ltr drink, 1 pound cake", 5500, { category: "party", badge: "Party", imageKey: "pizza" }),
+  deal(52, "party-large", "Large Party Package", "3 Large pizza, 3 Zinger burger, 2 × 1.5 Ltr drink, 1 pound cake", 7000, { category: "party", badge: "Party", imageKey: "pizza" }),
+  deal(53, "party-family", "Family Party Package", "3 Family pizza, 3 Zinger burger, 2 × 1.5 Ltr drink, 1 pound cake", 8000, { category: "party", badge: "Party", imageKey: "pizza" }),
 
-  deal(60, "special-deal-s", "Special Flavour Small Deal", "Small Cheeziup special flavour pizza deal for members", 1400, { category: "pizza-special", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(61, "special-deal-m", "Special Flavour Medium Deal", "Medium Cheeziup special flavour pizza deal for members", 2400, { category: "pizza-special", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(62, "special-deal-l", "Special Flavour Large Deal", "Large Cheeziup special flavour pizza deal for members", 3200, { category: "pizza-special", memberOnly: true, badge: "Members", imageKey: "pizza" }),
-  deal(63, "special-deal-f", "Special Flavour Family Deal", "Family Cheeziup special flavour pizza deal for members", 3800, { category: "pizza-special", memberOnly: true, badge: "Members", imageKey: "pizza" }),
+  deal(60, "special-deal-s", "Special Flavour Small Deal", "Small Cheeziup special flavour pizza. Members only.", 1450, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza-special" }),
+  deal(61, "special-deal-m", "Special Flavour Medium Deal", "Medium Cheeziup special flavour pizza. Members only.", 2450, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza-special" }),
+  deal(62, "special-deal-l", "Special Flavour Large Deal", "Large Cheeziup special flavour pizza. Members only.", 3250, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza-special" }),
+  deal(63, "special-deal-f", "Special Flavour Family Deal", "Family Cheeziup special flavour pizza. Members only.", 3850, { category: "hot", memberOnly: true, badge: "Members", imageKey: "pizza-special" }),
 
-  ...[
-    ["chicken-supreme", "Chicken Supreme", "Cheese, Italian chicken, spicy chicken, onion, green pepper, olive, mushroom"],
-    ["chicken-tikka", "Chicken Tikka", "Tikka boti, onion, hot chilli cheese"],
-    ["chicken-fajita", "Chicken Fajita", "Cheese, special fajita chicken, mushroom, olive, capsicum"],
-    ["vegetarian", "Vegetarian", "Cheese, onion, green pepper, bell pepper, olives, mushroom, tomato"],
-    ["cheeser", "Cheeser", "Cheese and tasty tomato sauce"],
-    ["hot-chilly", "Hot & Chilly", "Spicy chicken, cheese, hot chilli, onion, mushroom, olive"],
-    ["american-hot", "American Hot", "Cheese, Italian, sausages, hot chilli, onion, minced beef, egg"],
-    ["jalpeno", "Jalpeno", "Cheese, chicken, jalapeno, tomato, sweet corn, onion"],
-    ["milano", "Milano", "Cheese, minced chicken, roast, beef, sausages, onion, capsicum"],
-    ["romano", "Romano", "Cheese, roast chicken, mushroom, olive, onion, capsicum"],
-    ["chilly-mexican", "Chilly Mexican", "Cheese, green chilli, onion rings, capsicum, chicken"],
-    ["chicken-cheese", "Chicken Cheese", "Chicken, cheese, onion"],
-  ].map(([slug, name, description], index) => ({
+  ...(
+    [
+      ["chicken-supreme", "Chicken Supreme", "Cheese, Italian chicken, spicy chicken, onion, green pepper, olive, mushroom", "pizza"],
+      ["chicken-tikka", "Chicken Tikka", "Tikka boti, onion, hot chilli cheese", "pizza-tikka"],
+      ["chicken-fajita", "Chicken Fajita", "Cheese, special fajita chicken, mushroom, olive, capsicum", "pizza-fajita"],
+      ["vegetarian", "Vegetarian", "Cheese, onion, green pepper, bell pepper, olives, mushroom, tomato", "pizza-veg"],
+      ["cheeser", "Cheeser", "Cheese and tasty tomato sauce", "pizza-veg"],
+      ["hot-chilly", "Hot & Chilly", "Spicy chicken, cheese, hot chilli, onion, mushroom, olive", "pizza-tikka"],
+      ["american-hot", "American Hot", "Cheese, Italian, sausages, hot chilli, onion, minced beef, egg", "pizza-pepperoni"],
+      ["jalpeno", "Jalapeno", "Cheese, chicken, jalapeno, tomato, sweet corn, onion", "pizza-fajita"],
+      ["milano", "Milano", "Cheese, minced chicken, roast, beef, sausages, onion, capsicum", "pizza-pepperoni"],
+      ["romano", "Romano", "Cheese, roast chicken, mushroom, olive, onion, capsicum", "pizza"],
+      ["chilly-mexican", "Chilly Mexican", "Cheese, green chilli, onion rings, capsicum, chicken", "pizza-fajita"],
+      ["chicken-cheese", "Chicken Cheese", "Chicken, cheese, onion", "pizza"],
+      ["malai-boti", "Malai Boti", "Malai, mayo, sausage, hot chilli, olive, mushroom, tomato, cheese", "pizza-malai"],
+      ["crown-crust", "Crown Crust", "Kabab, mayo, sausage, olive, mushroom, special chicken, capsicum, chilli", "pizza-crown"],
+    ] as const
+  ).map(([slug, name, description, imageKey], index) => ({
     slug,
     name,
     description,
     category: "pizza-regular",
     kind: "pizza" as const,
-    imageKey: "pizza",
+    imageKey,
     sizes: REGULAR_SIZES,
-    sortOrder: 70 + index,
+    sortOrder: 80 + index,
   })),
 
-  ...[
-    ["cheeziup-special", "Cheeziup Special", "Super chicken meat, crunch sauce, hot chilli, olive, mushroom, cheese"],
-    ["malai-boti", "Malai Boti", "Malai, mayo, sausage, hot chilli, olive, mushroom, tomato, cheese"],
-    ["crown-crust", "Crown Crust", "Kabab, mayo, sausage, olive, mushroom, special chicken, capsicum, chilli"],
-    ["kabab-crust", "Kabab Crust", "Kabab, mayo, sausage, olive, mushroom, special chicken, capsicum, chilli"],
-    ["beef-pepperoni", "Beef Pepperoni Italian", "Pepperoni, cheese, Italian herbs"],
-    ["punjabi-special", "Punjabi Special", "Boti, cheese, chicken, hot chilli, onion, tomato rings"],
-  ].map(([slug, name, description], index) => ({
+  ...(
+    [
+      ["cheeziup-special", "Cheeziup Special", "Super chicken meat, crunch sauce, hot chilli, olive, mushroom, cheese", "pizza-special"],
+      ["afghani-tikka", "Afghani Tikka", "Afghani chicken, cheese, onion, tomato, olive, mushroom, crunch", "pizza-tikka"],
+      ["behari-kabab", "Behari Kabab", "Cheese, special behari flavour, olive, mushroom, onion, hot chilli", "pizza-crown"],
+      ["kabab-crust", "Kabab Crust", "Kabab, mayo, sausage, olive, mushroom, special chicken, capsicum, chilli", "pizza-crown"],
+      ["beef-pepperoni", "Beef Pepperoni Italian", "Pepperoni, cheese, Italian herbs", "pizza-pepperoni"],
+      ["punjabi-special", "Punjabi Special", "Boti, cheese, chicken, hot chilli, onion, tomato rings", "pizza-special"],
+      ["cheeziup-platter", "Cheeziup Platter", "Mix flavour of 4 pizza in 1. Small: 2 flavours. Medium, Large, Family: 4 flavours.", "pizza-platter"],
+    ] as const
+  ).map(([slug, name, description, imageKey], index) => ({
     slug,
     name,
     description,
     category: "pizza-special",
     kind: "pizza" as const,
-    imageKey: "pizza",
+    imageKey,
     badge: "Special",
     sizes: SPECIAL_SIZES,
-    sortOrder: 90 + index,
+    sortOrder: 64 + index,
   })),
 
   { slug: "zinger-nuggets-fries", name: "Zinger with Nuggets & Fries", description: "Zinger burger served with nuggets and fries", category: "burgers", kind: "item", imageKey: "burger", price: 550, sortOrder: 110 },
@@ -149,8 +156,8 @@ export const SEED_PRODUCTS: SeedProduct[] = [
   { slug: "chicken-sandwich", name: "Chicken Sandwich", description: "Chicken sandwich with nuggets and fries", category: "burgers", kind: "item", imageKey: "sandwich", price: 550, sortOrder: 117 },
   { slug: "malai-sandwich", name: "Malai Sandwich", description: "Malai sandwich with nuggets and fries", category: "burgers", kind: "item", imageKey: "sandwich", price: 600, sortOrder: 118 },
 
-  { slug: "chicken-shawarma", name: "Chicken Shawarma", description: "Loaded chicken shawarma wrap", category: "rolls", kind: "item", imageKey: "shawarma", price: 350, sortOrder: 130 },
-  { slug: "malai-shawarma", name: "Malai Chicken Shawarma", description: "Creamy malai chicken shawarma", category: "rolls", kind: "item", imageKey: "shawarma", price: 400, sortOrder: 131 },
+  { slug: "chicken-shawarma", name: "Chicken Shawarma", description: "Loaded chicken shawarma wrap", category: "shawarma", kind: "item", imageKey: "shawarma", price: 350, sortOrder: 130 },
+  { slug: "malai-shawarma", name: "Malai Chicken Shawarma", description: "Creamy malai chicken shawarma", category: "shawarma", kind: "item", imageKey: "shawarma", price: 400, sortOrder: 131 },
   { slug: "tikka-paratha-roll", name: "Chicken Tikka Paratha Roll", description: "Flaky paratha with tikka filling", category: "rolls", kind: "item", imageKey: "roll", price: 430, sortOrder: 132 },
   { slug: "malai-paratha-roll", name: "Malai Paratha Roll", description: "Malai chicken in layered paratha", category: "rolls", kind: "item", imageKey: "roll", price: 500, sortOrder: 133 },
   { slug: "kabab-paratha-roll", name: "Chicken Kabab Paratha Roll", description: "Kabab filling, paratha wrap", category: "rolls", kind: "item", imageKey: "roll", price: 400, sortOrder: 134 },

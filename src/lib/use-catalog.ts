@@ -17,3 +17,10 @@ export function useCatalog(initialData?: Product[]) {
 export function byCategory(products: Product[], slug: string) {
   return products.filter((product) => product.category === slug);
 }
+
+export function byHomeFilter(products: Product[], filter: string) {
+  if (filter === "all") return products.filter((product) => product.kind !== "deal");
+  if (filter === "pizza") return products.filter((product) => product.kind === "pizza");
+  if (filter === "deals") return products.filter((product) => product.kind === "deal");
+  return products.filter((product) => product.category === filter);
+}

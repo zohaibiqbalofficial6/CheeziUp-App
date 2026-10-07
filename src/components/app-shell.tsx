@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Clock, Home, MapPin, ShoppingBag, Tag, UtensilsCrossed } from "lucide-react";
+import { Home, MapPin, ShoppingBag, Tag, UtensilsCrossed } from "lucide-react";
 import { cartCount, useCart } from "@/lib/cart-store";
 import { cn } from "@/lib/utils";
 import type { RestaurantSettings } from "@/lib/types";
@@ -30,13 +30,12 @@ export function AppShell({
     <div className="paper-noise min-h-dvh bg-bg text-ink">
       <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3">
-          <Link to="/" className="flex min-w-0 items-center gap-3">
+          <Link to="/" className="flex min-w-0 items-center gap-3" aria-label={settings.name}>
             <img src="/logo.png" alt="" className="size-11 rounded-full bg-paper object-cover" />
             <div className="min-w-0">
-              <p className="truncate font-display text-lg tracking-wide">Cheeziup</p>
-              <p className="flex items-center gap-1 text-xs text-muted">
-                <Clock className="size-3" />
-                {settings.hours}
+              <p className="truncate font-display text-lg tracking-wide text-brand">CHEEZIUP PIZZA</p>
+              <p className="truncate text-xs font-semibold tracking-[0.14em] text-muted">
+                FAST FOOD • LAHORE
               </p>
             </div>
           </Link>
@@ -56,11 +55,9 @@ export function AppShell({
               aria-label="Open bag"
             >
               <ShoppingBag className="size-4" />
-              {count > 0 ? (
-                <span className="absolute -top-1 -right-1 inline-flex min-w-5 items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-paper">
-                  {count}
-                </span>
-              ) : null}
+              <span className="absolute -top-1 -right-1 inline-flex min-w-5 items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-paper">
+                {count}
+              </span>
             </Link>
           </div>
         </div>

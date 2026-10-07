@@ -24,12 +24,15 @@ import { useStaffSession } from "@/lib/staff-session";
 import {
   CATEGORIES,
   DEFAULT_SETTINGS,
+  FOOD_IMAGES,
   type Product,
   type ProductKind,
+  type ProductSize,
   type RestaurantSettings,
   type StaffRole,
 } from "@/lib/types";
 import { formatPkr, cn } from "@/lib/utils";
+import { openWhatsApp } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/staff")({ component: StaffPage });
 
@@ -59,7 +62,7 @@ function StaffPage() {
         <div className="mx-auto flex max-w-5xl items-center gap-3">
           <img src="/logo.png" alt="" className="size-10 rounded-full bg-paper object-cover" />
           <div>
-            <p className="font-display text-lg tracking-wide">Kitchen</p>
+            <p className="font-display text-lg tracking-wide">Admin</p>
             <p className="text-xs text-muted">
               {profile.name} · {profile.role}
             </p>
@@ -127,8 +130,8 @@ function PinGate({
   return (
     <div className="hero-wash flex min-h-dvh flex-col items-center justify-center px-5 text-paper">
       <img src="/logo.png" alt="Cheeziup" className="size-24 rounded-full bg-paper object-cover" />
-      <h1 className="mt-5 font-display text-4xl tracking-wide">Staff PIN</h1>
-      <p className="mt-1 text-sm text-paper/75">Kitchen and manager access only</p>
+      <h1 className="mt-5 font-display text-4xl tracking-wide">Admin PIN</h1>
+      <p className="mt-1 text-sm text-paper/75">Owner and manager only. Customers stay on the shop.</p>
       <div className="mt-6 flex gap-2">
         {Array.from({ length: Math.max(4, pin.length) }).map((_, index) => (
           <span
@@ -144,8 +147,13 @@ function PinGate({
             className="h-16 rounded-[18px] bg-paper/12 text-xl font-semibold text-paper transition-colors hover:bg-paper/20"
             onClick={() => {
               if (key === "del") setPin((value) => value.slice(0, -1));
-              else if (key === "go") login.mutate();
-              else setPin((value) => (value + key).slice(0, 8));
+              else if (key === "go") {
+                if (pin.length < 4) {
+                  toast.error("Enter a 4–8 digit PIN.");
+                  return;
+                }
+                login.mutate();
+              } else setPin((value) => (value + key).slice(0, 8));
             }}
           >
             {key === "del" ? <Delete className="mx-auto size-5" /> : key === "go" ? "OK" : key}
@@ -164,16 +172,29 @@ function OrdersPanel({ token }: { token: string }) {
   const orders = useQuery({
     queryKey: ["orders", token],
     queryFn: () => listOrders({ data: { token } }),
+    refetchInterval: 8000,
   });
   const update = useMutation({
     mutationFn: (input: { id: number; status: "new" | "preparing" | "out" | "done" | "cancelled" }) =>
       updateOrderStatus({ data: { token, ...input } }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["orders"] }),
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      if (result.customerWaUrl) openWhatsApp(result.customerWaUrl);
+      toast.success("Status saved. WhatsApp is opening to message the customer.");
+    },
+    onError: (error: Error) => toast.error(error.message),
   });
 
   if (!orders.data?.length) {
     return <Empty text="No orders yet. Customer tickets land here after WhatsApp checkout." />;
   }
+
+  const actions = [
+    { status: "preparing" as const, label: "Accept" },
+    { status: "out" as const, label: "On the way" },
+    { status: "done" as const, label: "Done" },
+    { status: "cancelled" as const, label: "Cancel" },
+  ];
 
   return (
     <div className="space-y-3">
@@ -186,7 +207,7 @@ function OrdersPanel({ token }: { token: string }) {
                 {order.customerName} · {order.customerPhone}
               </p>
             </div>
-            <Badge>{order.status}</Badge>
+            <Badge>{order.status === "new" ? "new" : order.status}</Badge>
           </div>
           <p className="mt-2 text-sm text-muted">
             {order.fulfillment}
@@ -201,16 +222,18 @@ function OrdersPanel({ token }: { token: string }) {
               </li>
             ))}
           </ul>
+          {order.notes ? <p className="mt-2 text-sm text-muted">Notes: {order.notes}</p> : null}
           <p className="mt-3 font-display text-xl tabular-nums text-brand">{formatPkr(order.totalPkr)}</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {(["preparing", "out", "done", "cancelled"] as const).map((status) => (
+            {actions.map((action) => (
               <Button
-                key={status}
+                key={action.status}
                 size="sm"
-                variant={order.status === status ? "default" : "outline"}
-                onClick={() => update.mutate({ id: order.id, status })}
+                variant={order.status === action.status ? "default" : "outline"}
+                disabled={update.isPending}
+                onClick={() => update.mutate({ id: order.id, status: action.status })}
               >
-                {status}
+                {action.label}
               </Button>
             ))}
           </div>
@@ -242,8 +265,8 @@ function MenuPanel({ token }: { token: string }) {
           featured: editing?.featured ?? false,
           badge: editing?.badge ?? null,
           included: editing?.included ?? editing?.description ?? null,
-          price: editing?.price ?? null,
-          sizes: editing?.sizes ?? null,
+          price: editing?.kind === "pizza" ? null : (editing?.price ?? 0),
+          sizes: editing?.kind === "pizza" ? (editing?.sizes ?? defaultPizzaSizes()) : null,
           active: editing?.active ?? true,
         },
       }),
@@ -251,7 +274,7 @@ function MenuPanel({ token }: { token: string }) {
       queryClient.invalidateQueries({ queryKey: ["admin-catalog"] });
       queryClient.invalidateQueries({ queryKey: ["catalog"] });
       setEditing(null);
-      toast.success("Saved");
+      toast.success("Saved. Customers can see it now.");
     },
     onError: (error: Error) => toast.error(error.message),
   });
@@ -260,11 +283,15 @@ function MenuPanel({ token }: { token: string }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-catalog"] });
       queryClient.invalidateQueries({ queryKey: ["catalog"] });
+      toast.success("Removed");
     },
   });
 
   return (
     <div className="space-y-3">
+      <p className="text-sm text-muted">
+        Add deals, pizzas, and items here. Turn off “Visible to customers” to hide something without deleting it.
+      </p>
       <Button
         onClick={() =>
           setEditing({
@@ -274,8 +301,9 @@ function MenuPanel({ token }: { token: string }) {
             kind: "deal",
             imageKey: "pizza",
             price: 0,
+            badge: "Deal",
             memberOnly: false,
-            featured: false,
+            featured: true,
             active: true,
           })
         }
@@ -289,6 +317,7 @@ function MenuPanel({ token }: { token: string }) {
             <p className="text-xs text-muted">
               {product.category} · {product.active ? "live" : "hidden"}
               {product.price != null ? ` · ${formatPkr(product.price)}` : ""}
+              {product.featured ? " · home" : ""}
             </p>
           </div>
           <div className="flex gap-2">
@@ -302,40 +331,67 @@ function MenuPanel({ token }: { token: string }) {
         </div>
       ))}
       <Dialog open={!!editing} onOpenChange={() => setEditing(null)}>
-        <DialogContent title={editing?.id ? "Edit item" : "New item"}>
+        <DialogContent title={editing?.id ? "Edit item" : "New deal or item"}>
           {editing ? (
             <div className="grid gap-3">
               <Field label="Name">
                 <Input value={editing.name ?? ""} onChange={(e) => setEditing({ ...editing, name: e.target.value })} />
               </Field>
-              <Field label="Description / included">
+              <Field label="What is included">
                 <Textarea
                   value={editing.description ?? ""}
                   onChange={(e) => setEditing({ ...editing, description: e.target.value, included: e.target.value })}
                 />
               </Field>
-              <Field label="Kind">
+              <Field label="Type">
                 <select
                   className="h-11 rounded-[12px] bg-paper px-3 text-sm shadow-[inset_0_0_0_1px_var(--color-line)]"
                   value={editing.kind ?? "deal"}
-                  onChange={(e) => setEditing({ ...editing, kind: e.target.value as ProductKind })}
+                  onChange={(e) => {
+                    const kind = e.target.value as ProductKind;
+                    setEditing({
+                      ...editing,
+                      kind,
+                      sizes: kind === "pizza" ? (editing.sizes ?? defaultPizzaSizes()) : null,
+                    });
+                  }}
                 >
                   <option value="deal">Deal</option>
                   <option value="item">Item</option>
                   <option value="pizza">Pizza</option>
                 </select>
               </Field>
-              <Field label="Category slug">
-                <Input
-                  value={editing.category ?? ""}
+              <Field label="Category">
+                <select
+                  className="h-11 rounded-[12px] bg-paper px-3 text-sm shadow-[inset_0_0_0_1px_var(--color-line)]"
+                  value={editing.category ?? "student"}
                   onChange={(e) => setEditing({ ...editing, category: e.target.value })}
-                  placeholder={CATEGORIES.map((c) => c.slug).join(", ")}
-                />
+                >
+                  {CATEGORIES.map((category) => (
+                    <option key={category.slug} value={category.slug}>
+                      {category.label}
+                    </option>
+                  ))}
+                </select>
               </Field>
-              <Field label="Image key">
-                <Input
+              <Field label="Photo">
+                <select
+                  className="h-11 rounded-[12px] bg-paper px-3 text-sm shadow-[inset_0_0_0_1px_var(--color-line)]"
                   value={editing.imageKey ?? "pizza"}
                   onChange={(e) => setEditing({ ...editing, imageKey: e.target.value })}
+                >
+                  {Object.keys(FOOD_IMAGES).map((key) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="Badge (optional)">
+                <Input
+                  value={editing.badge ?? ""}
+                  onChange={(e) => setEditing({ ...editing, badge: e.target.value || null })}
+                  placeholder="Deal 21"
                 />
               </Field>
               {editing.kind !== "pizza" ? (
@@ -346,7 +402,23 @@ function MenuPanel({ token }: { token: string }) {
                     onChange={(e) => setEditing({ ...editing, price: Number(e.target.value) })}
                   />
                 </Field>
-              ) : null}
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  {(editing.sizes ?? defaultPizzaSizes()).map((size, index) => (
+                    <Field key={size.id} label={`${size.label} Rs`}>
+                      <Input
+                        type="number"
+                        value={size.price}
+                        onChange={(e) => {
+                          const sizes = [...(editing.sizes ?? defaultPizzaSizes())];
+                          sizes[index] = { ...sizes[index], price: Number(e.target.value) };
+                          setEditing({ ...editing, sizes });
+                        }}
+                      />
+                    </Field>
+                  ))}
+                </div>
+              )}
               <label className="flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -361,7 +433,7 @@ function MenuPanel({ token }: { token: string }) {
                   checked={!!editing.featured}
                   onChange={(e) => setEditing({ ...editing, featured: e.target.checked })}
                 />
-                Featured on home
+                Show on home deals strip
               </label>
               <label className="flex min-h-11 items-center gap-2 text-sm">
                 <input
@@ -371,7 +443,7 @@ function MenuPanel({ token }: { token: string }) {
                 />
                 Visible to customers
               </label>
-              <Button onClick={() => save.mutate()} disabled={save.isPending}>
+              <Button onClick={() => save.mutate()} disabled={save.isPending || (editing.name ?? "").trim().length < 2}>
                 Save
               </Button>
             </div>
@@ -380,6 +452,15 @@ function MenuPanel({ token }: { token: string }) {
       </Dialog>
     </div>
   );
+}
+
+function defaultPizzaSizes(): ProductSize[] {
+  return [
+    { id: "S", label: "Small", inches: 8, price: 700 },
+    { id: "M", label: "Medium", inches: 11, price: 1250 },
+    { id: "L", label: "Large", inches: 14, price: 1650 },
+    { id: "F", label: "Family", inches: 16, price: 1850 },
+  ];
 }
 
 function SettingsPanel({ token }: { token: string }) {
@@ -435,6 +516,9 @@ function SettingsPanel({ token }: { token: string }) {
       </Field>
       <Field label="Delivery note">
         <Textarea value={settings.deliveryNote} onChange={(e) => patch({ deliveryNote: e.target.value })} />
+      </Field>
+      <Field label="Member perk">
+        <Textarea value={settings.memberPerk} onChange={(e) => patch({ memberPerk: e.target.value })} />
       </Field>
       <Button onClick={() => save.mutate()} disabled={save.isPending}>
         Save shop

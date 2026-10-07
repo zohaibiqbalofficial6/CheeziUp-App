@@ -85,12 +85,31 @@ export const CATEGORIES: { slug: string; label: string; blurb: string }[] = [
   { slug: "pizza-regular", label: "Regular Pizzas", blurb: "Classic Cheeziup flavours" },
   { slug: "pizza-special", label: "Special Pizzas", blurb: "House crusts and loaded toppings" },
   { slug: "burgers", label: "Burgers & Sandwiches", blurb: "Zinger, shami, patty and more" },
-  { slug: "rolls", label: "Shawarma & Rolls", blurb: "Paratha rolls and shawarma" },
+  { slug: "shawarma", label: "Shawarma", blurb: "Loaded chicken wraps" },
+  { slug: "rolls", label: "Paratha Rolls", blurb: "Tikka, malai and kabab" },
   { slug: "sides", label: "Sides & Extras", blurb: "Fries, nuggets and fish" },
+];
+
+export const HOME_FILTERS: { id: string; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "pizza", label: "Pizza" },
+  { id: "burgers", label: "Burgers" },
+  { id: "shawarma", label: "Shawarma" },
+  { id: "rolls", label: "Rolls" },
+  { id: "sides", label: "Sides" },
+  { id: "deals", label: "Deals" },
 ];
 
 export const FOOD_IMAGES: Record<string, string> = {
   pizza: "/food/pizza.jpg",
+  "pizza-special": "/food/pizza-special.jpg",
+  "pizza-tikka": "/food/pizza-tikka.jpg",
+  "pizza-fajita": "/food/pizza-fajita.jpg",
+  "pizza-veg": "/food/pizza-veg.jpg",
+  "pizza-crown": "/food/pizza-crown.jpg",
+  "pizza-pepperoni": "/food/pizza-pepperoni.jpg",
+  "pizza-malai": "/food/pizza-malai.jpg",
+  "pizza-platter": "/food/pizza-platter.jpg",
   burger: "/food/burger.jpg",
   shawarma: "/food/shawarma.jpg",
   fries: "/food/fries.jpg",
@@ -103,16 +122,16 @@ export const FOOD_IMAGES: Record<string, string> = {
 
 export const DEFAULT_SETTINGS: RestaurantSettings = {
   name: "Cheeziup Pizza & Fast Food",
-  tagline: "Hot oven. Fast street. Lahore nights.",
+  tagline: "Crust to crust. Deals, pizzas, burgers, and late-night bites from Al Faisal Town.",
   address:
     "First Floor, Shop #3 Takbeer Plaza, Joray Pul Chowk, Al Faisal Town, Zarar Shaheed Road, Lahore",
   hours: "1:00 PM – 3:00 AM",
   phones: ["0325-9909922", "0325-4090909", "0370-4408836", "042-36637100"],
   whatsapp: "0325-9909922",
-  announcement: "Show your member card on regular spice S / M / L / F pizza orders and get a free 8-inch pizza.",
+  announcement: "Show your member card and get an 8-inch pizza free on regular spice S / M / L / F orders.",
   deliveryNote:
     "Free home delivery for members. 8-inch within 3 km, 11-inch 7 km, 14-inch 10 km, 16-inch 13 km.",
-  memberPerk: "Members unlock Hot Deals, Two Pizza Deals, and free 8-inch pizza on card.",
+  memberPerk: "Members unlock Hot Deals, Two Pizza Deals, and a free 8-inch pizza on card.",
 };
 
 export function productPrice(product: Product, member: boolean, sizeId?: string) {

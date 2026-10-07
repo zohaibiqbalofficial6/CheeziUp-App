@@ -5,7 +5,7 @@ import { ensureSeeded } from "@/lib/server/seed";
 import { mapOrder, mapSettings } from "@/lib/server/map";
 import { requireStaff } from "@/lib/api/staff-auth";
 import { waDigits } from "@/lib/utils";
-import { DEFAULT_SETTINGS, type CartLine, type RestaurantSettings } from "@/lib/types";
+import { DEFAULT_SETTINGS, type CartLine, type OrderRecord, type RestaurantSettings } from "@/lib/types";
 
 const lineSchema = z.object({
   key: z.string(),
@@ -17,7 +17,16 @@ const lineSchema = z.object({
   included: z.string().optional(),
 });
 
-function buildWhatsAppMessage(input: {
+function itemLines(items: CartLine[]) {
+  return items
+    .map((item) => {
+      const size = item.sizeLabel ? ` (${item.sizeLabel})` : "";
+      return `• ${item.qty}× ${item.name}${size} — Rs ${item.unitPrice * item.qty}`;
+    })
+    .join("\n");
+}
+
+function buildKitchenTicket(input: {
   code: string;
   name: string;
   phone: string;
@@ -28,12 +37,6 @@ function buildWhatsAppMessage(input: {
   items: CartLine[];
   total: number;
 }) {
-  const lines = input.items
-    .map((item) => {
-      const size = item.sizeLabel ? ` (${item.sizeLabel})` : "";
-      return `• ${item.qty}× ${item.name}${size} — Rs ${item.unitPrice * item.qty}`;
-    })
-    .join("\n");
   return [
     `CHEEZIUP PIZZA ORDER ${input.code}`,
     `Name: ${input.name}`,
@@ -42,7 +45,7 @@ function buildWhatsAppMessage(input: {
     input.fulfillment === "delivery" ? `Address: ${input.address}` : null,
     input.member ? "Member card: Yes" : "Member card: No",
     "",
-    lines,
+    itemLines(input.items),
     "",
     `Total: Rs ${input.total}`,
     input.notes ? `Notes: ${input.notes}` : null,
@@ -51,6 +54,35 @@ function buildWhatsAppMessage(input: {
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function buildCustomerUpdate(order: OrderRecord, status: OrderRecord["status"]) {
+  const intro = `Salaam ${order.customerName}, Cheeziup Pizza order ${order.code}`;
+  const body = itemLines(order.items);
+  const total = `Total: Rs ${order.totalPkr}`;
+  if (status === "preparing") {
+    return [
+      `${intro} is ACCEPTED.`,
+      "We are preparing it now.",
+      "",
+      body,
+      "",
+      total,
+      order.fulfillment === "delivery" ? `Delivery: ${order.address}` : "Pickup at the shop.",
+      "",
+      "Thank you for ordering Cheeziup.",
+    ].join("\n");
+  }
+  if (status === "out") {
+    return `${intro} is on the way.\n\n${total}\nSee you soon.`;
+  }
+  if (status === "done") {
+    return `${intro} is ready / completed.\n\n${total}\nThank you. Come again.`;
+  }
+  if (status === "cancelled") {
+    return `${intro} was cancelled. Please call 0325-9909922 if you have a question.`;
+  }
+  return `${intro} update: ${status}.`;
 }
 
 export const placeOrder = createServerFn({ method: "POST" })
@@ -96,7 +128,7 @@ export const placeOrder = createServerFn({ method: "POST" })
     const settings = settingsRows[0]
       ? mapSettings(settingsRows[0].value)
       : DEFAULT_SETTINGS;
-    const message = buildWhatsAppMessage({
+    const message = buildKitchenTicket({
       code,
       name: data.name.trim(),
       phone: data.phone.trim(),
@@ -153,7 +185,31 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
     const sql = await getSql();
     await requireStaff(sql, data.token);
     await sql`update orders set status = ${data.status} where id = ${data.id}`;
-    return { ok: true };
+    const rows = await sql`
+      select * from orders where id = ${data.id}
+    `;
+    const row = rows[0] as
+      | {
+          id: number;
+          code: string;
+          customer_name: string;
+          customer_phone: string;
+          address: string;
+          notes: string;
+          fulfillment: string;
+          member: boolean;
+          items: unknown;
+          total_pkr: number;
+          status: string;
+          created_at: string | Date;
+        }
+      | undefined;
+    if (!row) return { ok: true, customerWaUrl: null as string | null };
+    const order = mapOrder(row);
+    const customerWaUrl = `https://wa.me/${waDigits(order.customerPhone)}?text=${encodeURIComponent(
+      buildCustomerUpdate(order, data.status),
+    )}`;
+    return { ok: true, customerWaUrl, status: data.status };
   });
 
 export const getSettings = createServerFn({ method: "GET" }).handler(async () => {

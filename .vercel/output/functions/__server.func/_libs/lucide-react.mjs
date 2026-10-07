@@ -82,49 +82,6 @@ var createLucideIcon = (iconName, iconNode) => {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var ArrowRight = createLucideIcon("arrow-right", [["path", {
-	d: "M5 12h14",
-	key: "1ays0h"
-}], ["path", {
-	d: "m12 5 7 7-7 7",
-	key: "xquz4c"
-}]]);
-/**
-* @license lucide-react v0.510.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
-var Bike = createLucideIcon("bike", [
-	["circle", {
-		cx: "18.5",
-		cy: "17.5",
-		r: "3.5",
-		key: "15x4ox"
-	}],
-	["circle", {
-		cx: "5.5",
-		cy: "17.5",
-		r: "3.5",
-		key: "1noe27"
-	}],
-	["circle", {
-		cx: "15",
-		cy: "5",
-		r: "1",
-		key: "19l28e"
-	}],
-	["path", {
-		d: "M12 17.5V14l-3-3 4-3 2 3h2",
-		key: "1npguv"
-	}]
-]);
-/**
-* @license lucide-react v0.510.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
 var Clock = createLucideIcon("clock", [["circle", {
 	cx: "12",
 	cy: "12",
@@ -152,38 +109,6 @@ var Delete = createLucideIcon("delete", [
 	["path", {
 		d: "m18 9-6 6",
 		key: "1fp51s"
-	}]
-]);
-/**
-* @license lucide-react v0.510.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
-var Fish = createLucideIcon("fish", [
-	["path", {
-		d: "M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z",
-		key: "15baut"
-	}],
-	["path", {
-		d: "M18 12v.5",
-		key: "18hhni"
-	}],
-	["path", {
-		d: "M16 17.93a9.77 9.77 0 0 1 0-11.86",
-		key: "16dt7o"
-	}],
-	["path", {
-		d: "M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33",
-		key: "l9di03"
-	}],
-	["path", {
-		d: "M10.46 7.26C10.2 5.88 9.17 4.24 8 3h5.8a2 2 0 0 1 1.98 1.67l.23 1.4",
-		key: "1kjonw"
-	}],
-	["path", {
-		d: "m16.01 17.93-.23 1.4A2 2 0 0 1 13.8 21H9.5a5.96 5.96 0 0 0 1.49-3.98",
-		key: "1zlm23"
 	}]
 ]);
 /**
@@ -314,38 +239,6 @@ var Plus = createLucideIcon("plus", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var Sandwich = createLucideIcon("sandwich", [
-	["path", {
-		d: "m2.37 11.223 8.372-6.777a2 2 0 0 1 2.516 0l8.371 6.777",
-		key: "f1wd0e"
-	}],
-	["path", {
-		d: "M21 15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-5.25",
-		key: "1pfu07"
-	}],
-	["path", {
-		d: "M3 15a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h9",
-		key: "1oq9qw"
-	}],
-	["path", {
-		d: "m6.67 15 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2",
-		key: "1fnwu5"
-	}],
-	["rect", {
-		width: "20",
-		height: "4",
-		x: "2",
-		y: "11",
-		rx: "1",
-		key: "itshg"
-	}]
-]);
-/**
-* @license lucide-react v0.510.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
 var Share = createLucideIcon("share", [
 	["path", {
 		d: "M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8",
@@ -401,38 +294,6 @@ var Smartphone = createLucideIcon("smartphone", [["rect", {
 	d: "M12 18h.01",
 	key: "mhygvu"
 }]]);
-/**
-* @license lucide-react v0.510.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
-var Soup = createLucideIcon("soup", [
-	["path", {
-		d: "M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z",
-		key: "4rw317"
-	}],
-	["path", {
-		d: "M7 21h10",
-		key: "1b0cd5"
-	}],
-	["path", {
-		d: "M19.5 12 22 6",
-		key: "shfsr5"
-	}],
-	["path", {
-		d: "M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62",
-		key: "rpc6vp"
-	}],
-	["path", {
-		d: "M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62",
-		key: "1lf63m"
-	}],
-	["path", {
-		d: "M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62",
-		key: "97tijn"
-	}]
-]);
 /**
 * @license lucide-react v0.510.0 - ISC
 *
@@ -541,4 +402,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { ArrowRight as C, Bike as S, LogOut as _, Tag as a, Delete as b, ShoppingBag as c, Plus as d, Pizza as f, MapPin as g, MessageCircle as h, Trash2 as i, Share as l, Minus as m, UtensilsCrossed as n, Soup as o, Phone as p, TriangleAlert as r, Smartphone as s, X as t, Sandwich as u, House as v, Clock as x, Fish as y };
+export { Delete as _, Tag as a, Share as c, Phone as d, Minus as f, House as g, LogOut as h, Trash2 as i, Plus as l, MapPin as m, UtensilsCrossed as n, Smartphone as o, MessageCircle as p, TriangleAlert as r, ShoppingBag as s, X as t, Pizza as u, Clock as v };

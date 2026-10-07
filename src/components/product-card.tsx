@@ -44,8 +44,8 @@ export function ProductCard({
             {isPizza ? `From ${formatPkr(from)}` : formatPkr(from)}
           </p>
           {isPizza ? (
-            <Button size="sm" onClick={() => onConfigure?.(product)}>
-              Sizes
+            <Button size="sm" variant="secondary" onClick={() => onConfigure?.(product)}>
+              Add
             </Button>
           ) : line ? (
             <div className="flex items-center gap-1 rounded-[12px] bg-bg p-0.5">
@@ -68,6 +68,7 @@ export function ProductCard({
           ) : (
             <Button
               size="sm"
+              variant="secondary"
               onClick={() =>
                 add({
                   key: `p-${product.id}`,
